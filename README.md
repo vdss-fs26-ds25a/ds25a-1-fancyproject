@@ -1,5 +1,24 @@
-# Sample Project
-This is a template for a data visualization project using Python, uv for environment and package management and Quarto for documentation.
+# AircraftVerse Design Explorer
+This repository contains a Python visualization project for exploring AircraftVerse aircraft configurations through an interactive dashboard and accompanying Quarto documentation.
+
+The dashboard is implemented in Streamlit and focuses on the three project questions defined in the project charter:
+
+1. Which design parameters influence aircraft performance the most?
+2. Which trade-offs define the strongest designs?
+3. Are there hidden design families in the design space?
+
+Run the app locally with:
+```bash
+UV_CACHE_DIR=.uv-cache uv sync
+UV_CACHE_DIR=.uv-cache uv run streamlit run app.py
+```
+
+The app automatically loads `AircraftVerse-main/data_full` when the full dataset is available, otherwise it falls back to the 15 example designs in `AircraftVerse-main/data`.
+It also auto-detects a slimmed local dataset in `data_raw/aircraftverse_slim`, which is the recommended format for this project.
+
+---
+
+This project started from the course template for a data visualization project using Python, uv for environment and package management and Quarto for documentation.
 
 To adapt to your individual project change `sample` to the respective project name in the commands below
 
