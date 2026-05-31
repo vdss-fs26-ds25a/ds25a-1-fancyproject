@@ -20,15 +20,15 @@ Each configuration includes
 
 ## Key Questions
 
-- How do design parameters influence aircraft performance?  
-- Which parameters have the strongest impact on the efficiency of an aircraft?  
-- Are there non-obvious patterns or clusters in the design space?  
+- Which simulated aircraft designs are viable at all?
+- Which design families perform best for range, hover time and speed?
+- Which recurring design recipes show strong trade-offs between performance and mass?
 
 ## Expected Benefits
 
-- Users get a clear overview of all aircraft designs and compare different designs to understand variations  
-- Users understand which combinations of design parameters lead to a better performance  
-- Users identify meaningful patterns and clusters within the design space that are not visible at first.  
+- Users get a clear overview of all aircraft designs and can distinguish viable from non-viable designs.
+- Users understand which combinations of design parameters lead to better performance.
+- Users identify meaningful patterns in the design space that are not visible from individual aircraft designs alone.
 
 ## Publication Platform
 
@@ -40,9 +40,9 @@ The visualization will be published as an interactive web application accessible
 
 ## Objectives
 
-- Support comparison of different aircraft designs  
-- Enable users to identify high-performing aircraft configurations using multiple criteria  
-- Help user explore and understand how aircraft design parameters affect performance metric  
+- Support comparison of different aircraft design families.
+- Enable users to identify high-performing aircraft configurations using multiple criteria.
+- Help users explore and understand how design parameters affect performance metrics.
 
 ## Success Criteria
 
@@ -66,58 +66,61 @@ The visualization will be published as an interactive web application accessible
 
 # Stakeholder Analysis
 
-- Data Science Students: Use the tool for exploration and analysis  
-- Course Instructors/lecturers: Evaluate project quality  
-- Aerospace Enthusiasts: Interested in design insights  
+- Aviation students: Use the tool to understand aircraft design trade-offs in a school subject.
+- Aviation lecturers / teaching assistants: Use the tool to support explanation and assessment.
+- Data visualization instructors: Evaluate the clarity, reproducibility and appropriateness of the visualization product.
 
 ---
 
 # User Analysis
 
-## Persona 1: Data Science Students
+## Persona 1: Aviation Student
 
-- Domain expertise: familiar with data science and programming concepts, limited aerospace background  
-- Technical environment: Laptop  
+- Domain expertise: basic aviation and aircraft technology knowledge, limited data visualization experience
+- Technical environment: laptop during class, project work or exam preparation
 
 **User tasks**
 
-- Explore the dataset and examine connections/correlations between design parameters and performance metrics  
-- Identify patterns and clusters in the aircraft designs  
-- Present the project to instructors at the end of the semester  
+- Compare aircraft layouts and understand how design choices influence range, hover time and speed.
+- Identify which aircraft families are more likely to be viable.
+- Use visual evidence for a school task about aircraft design trade-offs.
 
 **Pains**
 
-- A large, high-dimensional dataset can be overwhelming  
-- Difficult so see relationships in plots  
-- Flexibility and adaption are needed  
+- Technical generator names are difficult to interpret.
+- A large simulated dataset can be overwhelming without grouping and filtering.
+- Trade-offs between range, hover time, speed and mass are hard to compare in raw tables.
 
 **Gains**
 
-- Clear visual insights that show connections  
-- Ability to filter, compare and explore designs  
-- Discover patterns that support analysis and reporting  
+- Clear visual explanations of important aircraft design patterns.
+- Ability to compare design families without reading raw JSON files.
+- Support for subject-specific reasoning about viable aircraft configurations.
 
 ---
 
-## Persona 2: Course Instructors/Lecturers
+## Persona 2: Aviation Lecturer / Teaching Assistant
 
-- Domain expertise: Data Science and Visual Communication  
-- Technical environment: Laptop  
+- Domain expertise: aviation and aircraft design fundamentals
+- Technical environment: laptop or classroom projector
 
 **User tasks**
 
-- Evaluate the quality of the students’ analysis and findings  
-- Provide feedback  
-- Conduct coaching sessions  
+- Use the dashboard to explain design-performance relationships.
+- Check whether students can interpret simulated aircraft performance data.
+- Provide examples of design trade-offs in class.
 
 **Pains**
 
-- No domain knowledge about aviation or aircraft technology  
+- Raw simulation data is too detailed for quick classroom use.
+- Students may focus on individual outliers instead of robust patterns.
+- Technical variable names need translation into understandable concepts.
 
 **Gains**
 
-- Ability to assess whether students’ visualizations highlight significant patterns and relationships  
-- Confidence that the visualizations accurately and clearly communicate multidimensional data  
+- A focused tool for explaining aircraft configuration trade-offs.
+- Group-level summaries that support teaching rather than isolated anecdotal examples.
+- A reproducible visualization product that can be discussed and critiqued.
 
 ---
 
@@ -126,7 +129,7 @@ The visualization will be published as an interactive web application accessible
 ## Resources
 
 - Dataset: AircraftVerse  
-- Tools: Python (Plotly Dash), Matplotlib  
+- Tools: Python, Streamlit, Plotly, Pandas  
 - Team: 2 Students  
 
 ## Constraints
@@ -212,4 +215,4 @@ gantt
 
 # GitHub Pages
 
-Link zur Dokumentation: **TODO**
+Link zur Dokumentation: see the deployed GitHub Pages site for this repository.

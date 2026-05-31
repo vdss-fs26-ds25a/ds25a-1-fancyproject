@@ -1,16 +1,32 @@
-# Overview 
+# Overview
 
-This documentation describes the conception, development and evaluation of a data visualisation product. The goal of the project is to ...
+AircraftVerse Design Explorer is an interactive visualization project for a large simulated aircraft design dataset. The final product is a Streamlit dashboard that helps aviation students explore how design choices relate to aircraft performance.
 
-![The vizualization product development process](pics/vizproductprocess.png){#fig-vizprocess}
+The dashboard focuses on three practical questions:
 
-The methodological procedure of this work follows the process model shown in @fig-vizprocess, which is based on the concepts on data product development outlined in @DoemerKempf2022_1000150238 and the [data science project-template](https://github.com/phonosync/dataviz-project-template) on github.
+- Which simulated aircraft designs are viable?
+- Which design families perform best?
+- Which recurring design recipes show strong trade-offs between range, hover time, speed and mass?
 
-It comprises the following four main phases with the corresponding documentation artefacts:
+## Dataset
 
-* **Project Understanding** &rarr; [Project Charta](project_charta.qmd): Context analysis, stakeholder and user analysis (based on the Value Proposition Canvas), formulation of objectives, success criteria, constraints and the visualization concept.
-* **Data Acquisition and Exploration** &rarr; [Data Report](data_report.qmd): Identification and acquisition of relevant data sources, followed by exploratory data analysis to understand data quality and structure.
-* **Visual Encoding and Design** &rarr; [Visualization Design Report](viz_design_report.qmd): Documentation of the data-to-visual mapping, layout and composition, interaction design, visual style and the resulting prototype(s).
-* **Evaluation** &rarr; [Evaluation Report](evaluation.qmd): Assessment of the developed prototype based on success criteria outlined in the project charta, evaluation of stakeholder feedback, checkpoint decision and, if applicable, gathering additional requirements and planning of the deployment.
-* **Deployment** &rarr; [Deployment Report](deployment.qmd): Description of the software architecture and deployment process, as well as the integration of the visualization product into the target environment and processes.
+The project uses AircraftVerse, a public dataset of simulated battery-powered aircraft designs. The dashboard uses a processed table with 27,714 configurations and 42 derived variables. These variables combine design parameters such as hub layout, battery type, battery cell count, wing count and fuselage layout with performance metrics such as maximum distance, hover time, maximum speed and mass.
 
+## Visualization Product
+
+The visualization product is a dashboard with four coordinated sections:
+
+- **Viability Landscape**: overview of successful and unsuccessful simulated designs.
+- **Design Families**: comparison of hub layouts, battery cell counts, fuselage types and wing presence.
+- **High-Performing Recipes**: repeated design combinations and range-hover trade-offs.
+- **Free Explorer**: flexible scatterplot and table exploration for user-driven questions.
+
+The dashboard is designed for aviation students who need to understand design-performance relationships in a school context, and for lecturers who need to assess whether these relationships are communicated clearly.
+
+## Documentation Structure
+
+- [Project Charta](project_charta.qmd): project goals, personas, scope and success criteria.
+- [Data Report](data_report.qmd): data source, processing workflow, data catalogue and exploratory findings.
+- [Visualization Design Report](viz_design_report.qmd): visual encodings, layout, interactions and design rationale.
+- [Evaluation Report](evaluation.qmd): task-based and heuristic evaluation against success criteria.
+- [Deployment Report](deployment.qmd): local run instructions, processed data setup and publication approach.

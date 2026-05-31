@@ -1,157 +1,62 @@
 # AircraftVerse Design Explorer
-This repository contains a Python visualization project for exploring AircraftVerse aircraft configurations through an interactive dashboard and accompanying Quarto documentation.
 
-The dashboard is implemented in Streamlit and focuses on the three project questions defined in the project charter:
+Interactive visualization project for exploring AircraftVerse, a simulated aircraft design dataset with 27,714 configurations.
 
-1. Which design parameters influence aircraft performance the most?
-2. Which trade-offs define the strongest designs?
-3. Are there hidden design families in the design space?
+The project focuses on how aircraft design choices relate to flight performance. The Streamlit dashboard helps users compare design families, identify viable aircraft configurations, and inspect trade-offs between maximum distance, hover time, speed, mass, and design complexity.
 
-Run the app locally with:
+Original data source:
+
+- AircraftVerse paper: <https://arxiv.org/abs/2306.05562>
+- AircraftVerse dataset on Zenodo: <https://doi.org/10.5281/zenodo.6525446>
+
+## Product
+
+- Visualization product: Streamlit dashboard in `app.py`
+- Data processing: Python pipeline in `aircraft_dashboard.py` and `data_acquisition/`
+- Documentation: Quarto website in `docs/`
+- Processed dataset: `data/aircraft_designs.csv.gz`
+
+## Run The Dashboard
+
 ```bash
 UV_CACHE_DIR=.uv-cache uv sync
 UV_CACHE_DIR=.uv-cache uv run streamlit run app.py
 ```
 
-The app automatically loads `AircraftVerse-main/data_full` when the full dataset is available, otherwise it falls back to the 15 example designs in `AircraftVerse-main/data`.
-It also auto-detects a slimmed local dataset in `data_raw/aircraftverse_slim`, which is the recommended format for this project.
+The dashboard loads the compact processed dataset first. If `data/aircraft_designs.csv.gz` is missing, it can fall back to a local slim AircraftVerse extraction in `data_raw/aircraftverse_slim`.
 
----
+## Rebuild The Processed Dataset
 
-This project started from the course template for a data visualization project using Python, uv for environment and package management and Quarto for documentation.
+The full raw AircraftVerse downloads are large and are not committed. To rebuild the processed file:
 
-To adapt to your individual project change `sample` to the respective project name in the commands below
+1. Download the three AircraftVerse zip files from <https://doi.org/10.5281/zenodo.6525446>.
+2. Create the slim JSON extraction:
 
-Adapt the `LICENSE` as required.
-
-> To do: Provide a brief description of the project here.
-
-## Project Organisation
-The visualization product development is organised according to the following process model:
-
-![The visualization product development process](docs/pics/vizproductprocess.png)
-
-Code and configurations used in the different project phases are stored in the correspoding subfolders. Documentation artefacts in the form of a Quarto project are provided in `docs`.
-
-| Phase | Code folders | Documentation section | `docs`-File |
-|:-------|:---|:---|:---|
-| Project Understanding | -  | Project Charta | project_charta.qmd  |
-| Data Acquisition and Exploration | `eda` | Data Report | data_report.qmd  |
-| Visual Encoding and Design | `encoding-design`  | Visual Encoding and Design | viz_encoding_design.qmd  |
-| Evaluation | `evaluation`  | Evaluation | evaluation.qmd  |
-| Deployment | `deployment` | Deployment | deplyoment.qmd |
-
-
-> To do: Adjust accoding to your specific project needs - ensure consistency with readme, documentation, etc.
-
-> To do: add link to documentation website for convenience.
-
-
-See section `Quarto Setup and Usage` for instructions on how to build and serve the documentation website using Quarto.
-
-## Python Environment Setup and Management with uv
-Make sure to have uv installed: https://docs.astral.sh/uv/getting-started/installation/
-
-After cloning the repository,  create the python environment with all dependencies based on the `.python-version`, `pyproject.toml` and `uv.lock` files by running
 ```bash
-uv sync
+python3 data_acquisition/prepare_slim_aircraftverse.py \
+  --zip-files data_raw/AircraftVerse_1.zip data_raw/AircraftVerse_2.zip data_raw/AircraftVerse_3.zip \
+  --target-dir data_raw/aircraftverse_slim
 ```
 
-To add new dependencies, use
+3. Build the compact dashboard table:
+
 ```bash
-uv add <package>
+UV_CACHE_DIR=.uv-cache uv run python data_acquisition/build_processed_dataset.py \
+  --source-dir data_raw/aircraftverse_slim \
+  --output data/aircraft_designs.csv.gz
 ```
-which will add the package to `pyproject.toml` and update the `uv.lock` file. You can also specify a version, e.g. `uv add pandas==2.0.3`.
 
-Remove packages with
+The expected output has 27,714 rows and 42 columns.
+
+## Render Documentation
+
 ```bash
-uv remove <package>
+cd docs
+UV_CACHE_DIR=../.uv-cache uv run quarto render
 ```
 
-Commit changes to `pyproject.toml` and `uv.lock` files into version control.
+The rendered site is written to `docs/build`.
 
-Run `uv sync` after pulling changes to update the local environment.
+## Repository Notes
 
-Whenever the python environment is used, make sure to prefix every command that uses python with `uv run`, e.g.
-```bash
-uv run python script.py
-```
-
-You can also run
-```bash 
-source .venv/bin/activate
-```
-to activate the project Python environment in a terminal session in order to avoid having to prefix every command.
-
-## Runtime Configuration with Environment Variables
-The environment variables are specified in a .env-File, which is never commited into version control, as it may contain secrets. The repo just contains the file `.env.template` to demonstrate how environment variables are specified.
-
-You have to create a local copy of `.env.template` in the project root folder and the easiest is to just rename it to `.env`.
-
-The content of the .env-file is then read by the pypi-dependency: `python-dotenv`. Usage:
-```python
-import os
-from dotenv import load_dotenv
-```
-
-`load_dotenv` reads the .env-file and sets the environment variables:
-
-```python
-load_dotenv()
-```
-
-which can then be accessed (assuming the file contains a line `SAMPLE_VAR=<some value>`):
-
-```python
-os.environ['SAMPLE_VAR']
-```
-
-## Quarto Setup and Usage
-
-### Setup Quarto
-
-1. [Install Quarto](https://quarto.org/docs/get-started/)
-2. Optional: [quarto-extension for VS Code](https://marketplace.visualstudio.com/items?itemName=quarto.quarto)
-3. If working with svg files and pdf output you will need to install rsvg-convert:
-    * On macOS: `brew install librsvg`
-    * On Windows using chocolatey:
-      * [Install chocolatey](https://chocolatey.org/install#individual)
-      * [Install rsvg-convert](https://community.chocolatey.org/packages/rsvg-convert): `choco install rsvg-convert`
-
-Source `*.qmd` and configuration files are in the `docs` folder. The Quarto project configuration is in `docs/_quarto.yml`.
-
-With embedded python code chunks that perform computations, you need to make sure that the python environment is activated when rendering. This can be done by prefixing the render command with `uv run`, e.g.:
-```bash
-uv run quarto render
-```
-
-### Working on the Documentation
-
-1. Make changes to the `.qmd` source files in the `docs` folder
-2. Make sure the project Python environment is activated (see Python environment setup and management)
-3. Preview locally: `quarto preview` from the `docs` folder
-4. Build the documentation website: `uv run quarto render` from the `docs` folder. This renders to `docs/build`
-5. Check the website locally by opening `docs/build/index.html` in a browser
-
-### Deployment of the Documentation to GitHub Pages
-
-The documentation website is deployed to GitHub Pages via a GitHub Actions workflow (`.github/workflows/publish.yml`). Every push to `main` triggers the workflow, which renders the Quarto project and deploys the result.
-
-The setting `execute: freeze: auto` in `_quarto.yml` ensures that Python computations are only executed locally. Results are cached in `docs/_freeze` and checked into the repository, so the GitHub Actions runner does not need Python — it uses the pre-computed results.
-
-#### Initial Setup (once)
-
-1. In the GitHub repository settings, go to **Settings > Pages** and set the source to **GitHub Actions**
-2. Render locally so that `_freeze` contains cached computation results:
-   ```bash
-   cd docs && uv run quarto render
-   ```
-3. Push the changes to `main`
-
-The `_freeze` directory and the workflow file `.github/workflows/publish.yml` should already be tracked in the repository.
-
-#### Publishing Updates
-
-1. Build the website locally: `uv run quarto render` from the `docs` folder. This updates `docs/build` (gitignored) and `docs/_freeze` (checked in)
-2. Check the website locally by opening `docs/build/index.html`
-3. Commit and push all updated files (including `docs/_freeze`) to `main`. The GitHub Actions workflow will render and deploy the site automatically
+`data_raw/` is intentionally ignored because it contains large local downloads and extracted raw files. The committed `.csv.gz` file is the reproducible processed dataset used by the app and deployment.

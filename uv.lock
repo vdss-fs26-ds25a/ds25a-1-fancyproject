@@ -3,6 +3,37 @@ revision = 3
 requires-python = "==3.12.*"
 
 [[package]]
+name = "aircraftverse-design-explorer"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "jupyterlab" },
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "plotly" },
+    { name = "python-dotenv" },
+    { name = "scikit-learn" },
+    { name = "seaborn" },
+    { name = "streamlit" },
+    { name = "ydata-profiling" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "jupyterlab", specifier = ">=4.4.7" },
+    { name = "matplotlib", specifier = ">=3.10,<3.11" },
+    { name = "numpy", specifier = ">=1.26,<2.2" },
+    { name = "pandas", specifier = ">=2.3.2" },
+    { name = "plotly", specifier = ">=6.3.1" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
+    { name = "scikit-learn", specifier = ">=1.7.2" },
+    { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "streamlit", specifier = ">=1.49.1" },
+    { name = "ydata-profiling", specifier = ">=4.12.2" },
+]
+
+[[package]]
 name = "altair"
 version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1478,37 +1509,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/6e/96/6772cbfa0e2485bcceef8071de7821f81aeac8bb45fbfd5542a3e8108165/rpds_py-0.27.1-cp312-cp312-win32.whl", hash = "sha256:819064fa048ba01b6dadc5116f3ac48610435ac9a0058bbde98e569f9e785c39", size = 221343, upload-time = "2025-08-27T12:13:26.967Z" },
     { url = "https://files.pythonhosted.org/packages/67/b6/c82f0faa9af1c6a64669f73a17ee0eeef25aff30bb9a1c318509efe45d84/rpds_py-0.27.1-cp312-cp312-win_amd64.whl", hash = "sha256:d9199717881f13c32c4046a15f024971a3b78ad4ea029e8da6b86e5aa9cf4594", size = 232497, upload-time = "2025-08-27T12:13:28.326Z" },
     { url = "https://files.pythonhosted.org/packages/e1/96/2817b44bd2ed11aebacc9251da03689d56109b9aba5e311297b6902136e2/rpds_py-0.27.1-cp312-cp312-win_arm64.whl", hash = "sha256:33aa65b97826a0e885ef6e278fbd934e98cdcfed80b63946025f01e2f5b29502", size = 222790, upload-time = "2025-08-27T12:13:29.71Z" },
-]
-
-[[package]]
-name = "sample-project"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "jupyterlab" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "plotly" },
-    { name = "python-dotenv" },
-    { name = "scikit-learn" },
-    { name = "seaborn" },
-    { name = "streamlit" },
-    { name = "ydata-profiling" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "jupyterlab", specifier = ">=4.4.7" },
-    { name = "matplotlib", specifier = ">=3.10,<3.11" },
-    { name = "numpy", specifier = ">=1.26,<2.2" },
-    { name = "pandas", specifier = ">=2.3.2" },
-    { name = "plotly", specifier = ">=6.3.1" },
-    { name = "python-dotenv", specifier = ">=1.1.1" },
-    { name = "scikit-learn", specifier = ">=1.7.2" },
-    { name = "seaborn", specifier = ">=0.13.2" },
-    { name = "streamlit", specifier = ">=1.49.1" },
-    { name = "ydata-profiling", specifier = ">=4.12.2" },
 ]
 
 [[package]]

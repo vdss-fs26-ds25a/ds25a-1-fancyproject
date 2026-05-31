@@ -49,6 +49,8 @@ OUTPUT_ONLY_COLUMNS = {
     "can_fly",
 }
 
+PROCESSED_DATA_PATH = Path("data") / "aircraft_designs.csv.gz"
+
 
 def locate_data_dir(root: Path) -> Path:
     candidates = [
@@ -201,13 +203,23 @@ def _build_design_record(design_dir: Path) -> dict[str, Any]:
     return record
 
 
-def load_aircraft_data(root: Path) -> tuple[pd.DataFrame, Path]:
-    data_dir = locate_data_dir(root)
+def build_aircraft_data_from_directory(data_dir: Path) -> pd.DataFrame:
+    """Build the flattened dashboard table from AircraftVerse design folders."""
     design_dirs = sorted(
         path for path in data_dir.iterdir() if path.is_dir() and path.name.startswith("design_")
     )
     rows = [_build_design_record(path) for path in design_dirs]
-    frame = pd.DataFrame(rows).sort_values("mission_score", ascending=False).reset_index(drop=True)
+    return pd.DataFrame(rows).sort_values("mission_score", ascending=False).reset_index(drop=True)
+
+
+def load_aircraft_data(root: Path) -> tuple[pd.DataFrame, Path]:
+    processed_path = root / PROCESSED_DATA_PATH
+    if processed_path.exists():
+        frame = pd.read_csv(processed_path)
+        return frame.sort_values("mission_score", ascending=False).reset_index(drop=True), processed_path
+
+    data_dir = locate_data_dir(root)
+    frame = build_aircraft_data_from_directory(data_dir)
     return frame, data_dir
 
 

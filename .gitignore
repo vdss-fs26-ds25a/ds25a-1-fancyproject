@@ -135,3 +135,7 @@ dmypy.json
 
 # AircraftVerse repo
 AircraftVerse-main
+
+# Local raw AircraftVerse downloads/extractions. The app uses a compact
+# processed dataset in data/ for reproducible deployment.
+data_raw/

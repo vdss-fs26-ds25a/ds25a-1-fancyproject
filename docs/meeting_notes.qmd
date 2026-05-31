@@ -1,44 +1,30 @@
 # Meeting Notes
 
-Notes and decisions from the coaching sessions. You might also want to include notes from internal team meetings here, e.g. to document decisions that are relevant for the project and the development of the visualisation product. Sort in reverse chronological order (most recent first).
+Notes and decisions from coaching sessions and relevant follow-up conversations.
 
 
-## 14.04.2022
-
-Topics:
-
-* topic 1
-* topic 2
-* ...
-
-Decisions:
-
-* decision 1
-* decision 2
-* ...
-
-Next steps:
-
-* this
-* and that
-* ...
-
-## 07.04.2022
+## 26.03.2026 Coaching Session
 
 Topics:
 
-* topic 1
-* topic 2
-* ...
+* Review of target users and project direction.
+* Discussion of whether the personas fit the AircraftVerse dataset and dashboard idea.
 
-Decisions:
+Feedback:
 
-* decision 1
-* decision 2
-* ...
+* The personas should be more specific than general data science students or
+  lecturers interested in aviation.
+* A better target group would be aviation students, because the dashboard could
+  support learning in an aviation-related subject.
+* We should validate this direction by talking to aviation students or aviation
+  lecturers.
 
-Next steps:
+Decisions and follow-up:
 
-* this
-* and that
-* ...
+* We changed the personas to aviation students and aviation lecturers / teaching
+  assistants.
+* We talked to two aviation students after the coaching session.
+* One student shared PowerPoint slides from their current school material.
+* Another student said the project would fit the subject "Principles of Flight".
+* Based on this, we kept the dashboard focused on aircraft design trade-offs as a
+  learning-oriented exploration tool.
