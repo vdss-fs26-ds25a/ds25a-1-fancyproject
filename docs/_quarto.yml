@@ -12,7 +12,7 @@ language:
   section-title-appendices: "Appendix"
 
 website:
-  title: "AircraftVerse Design Explorer"
+  title: "Exploring and Visualizing 27’714 Aircraft Designs"
   search: true
   sidebar:
     style: "floating"

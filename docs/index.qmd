@@ -1,6 +1,6 @@
 # Overview
 
-AircraftVerse Design Explorer is an interactive visualization project for a large simulated aircraft design dataset. The final product is a Streamlit dashboard that helps aviation students explore how design choices relate to aircraft performance.
+Exploring and Visualizing 27’714 Aircraft Designs is an interactive visualization project for a large simulated aircraft design dataset. The final product is a Streamlit dashboard that helps aviation students explore how design choices relate to aircraft performance.
 
 The dashboard focuses on three practical questions:
 

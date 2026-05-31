@@ -1,4 +1,4 @@
-# AircraftVerse Design Explorer
+# Exploring and Visualizing 27’714 Aircraft Designs
 
 Interactive visualization project for exploring AircraftVerse, a simulated aircraft design dataset with 27,714 configurations.
 

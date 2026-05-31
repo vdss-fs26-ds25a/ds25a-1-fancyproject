@@ -1,7 +1,7 @@
 [project]
-name = "aircraftverse-design-explorer"
+name = "exploring-and-visualizing-aircraft-designs"
 version = "0.1.0"
-description = "Interactive Streamlit dashboard for exploring AircraftVerse aircraft design performance."
+description = "Interactive Streamlit dashboard for exploring and visualizing 27,714 AircraftVerse aircraft designs."
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [

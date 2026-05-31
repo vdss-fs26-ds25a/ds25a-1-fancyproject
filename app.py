@@ -524,9 +524,9 @@ def render_header(frame: pd.DataFrame, data_dir: str) -> None:
         """
         <div class="hero">
             <div style="display:inline-block; padding:0.25rem 0.65rem; border-radius:999px; background:#103649; color:#f6efe0; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.05em;">
-                AircraftVerse Dashboard
+                Aircraft design dashboard
             </div>
-            <h1 style="margin:0.55rem 0 0.25rem 0;">Exploring the aircraft design space</h1>
+            <h1 style="margin:0.55rem 0 0.25rem 0;">Exploring and Visualizing 27’714 Aircraft Designs</h1>
             <p style="margin:0;">
                 Explore which aircraft designs are viable, which design families perform well, and which recurring design recipes produce the strongest trade-offs.
             </p>
@@ -808,7 +808,7 @@ def render_explorer_tab(frame: pd.DataFrame) -> None:
 
 def main() -> None:
     st.set_page_config(
-        page_title="AircraftVerse Design Explorer",
+        page_title="Exploring and Visualizing 27’714 Aircraft Designs",
         page_icon="✈️",
         layout="wide",
         initial_sidebar_state="expanded",
