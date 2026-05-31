@@ -760,6 +760,12 @@ def inject_styles() -> None:
             border-radius: 14px;
             padding: 0.2rem 0.45rem;
         }
+        section[data-testid="stSidebar"] .stSlider [data-testid="stThumbValue"],
+        section[data-testid="stSidebar"] .stSlider [data-baseweb="tooltip"],
+        section[data-testid="stSidebar"] .stSlider [role="tooltip"],
+        section[data-testid="stSidebar"] [data-baseweb="tooltip"] {
+            display: none;
+        }
         section[data-testid="stSidebar"] [data-baseweb="tag"] {
             background: rgba(63, 165, 255, 0.18) !important;
             border-radius: 999px !important;
