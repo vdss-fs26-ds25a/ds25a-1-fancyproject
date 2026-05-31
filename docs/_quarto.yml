@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: build
+  render:
+    - index.qmd
+    - project_charta.qmd
+    - data_report.qmd
+    - meeting_notes.qmd
 
 lang: en
 language:
@@ -16,9 +21,6 @@ website:
       - index.qmd
       - project_charta.qmd
       - data_report.qmd
-      - viz_design_report.qmd
-      - evaluation.qmd
-      - deployment.qmd
       - meeting_notes.qmd
 
 format:

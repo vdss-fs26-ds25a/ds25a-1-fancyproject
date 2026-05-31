@@ -25,8 +25,6 @@ The dashboard is designed for aviation students who need to understand design-pe
 
 ## Documentation Structure
 
-- [Project Charta](project_charta.qmd): project goals, personas, scope and success criteria.
-- [Data Report](data_report.qmd): data source, processing workflow, data catalogue and exploratory findings.
-- [Visualization Design Report](viz_design_report.qmd): visual encodings, layout, interactions and design rationale.
-- [Evaluation Report](evaluation.qmd): task-based and heuristic evaluation against success criteria.
-- [Deployment Report](deployment.qmd): local run instructions, processed data setup and publication approach.
+- [Project Charta](project_charta.qmd): required project goals, personas, scope and success criteria.
+- [Data Report](data_report.qmd): required data source, processing workflow, data catalogue and exploratory findings.
+- [Meeting Notes](meeting_notes.qmd): short documentation of the coaching feedback and follow-up user validation.

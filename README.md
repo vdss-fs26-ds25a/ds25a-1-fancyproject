@@ -2,7 +2,17 @@
 
 Interactive visualization project for exploring AircraftVerse, a simulated aircraft design dataset with 27,714 configurations.
 
+[![Streamlit App](https://img.shields.io/badge/Streamlit_App-deploy_link_pending-FF4B4B?logo=streamlit&logoColor=white)](#run-the-dashboard)
+[![Documentation](https://img.shields.io/badge/Documentation-GitHub_Pages-2C7A7B?logo=quarto&logoColor=white)](https://vdss-fs26-ds25a.github.io/ds25a-1-fancyproject/)
+
 The project focuses on how aircraft design choices relate to flight performance. The Streamlit dashboard helps users compare design families, identify viable aircraft configurations, and inspect trade-offs between maximum distance, hover time, speed, mass, and design complexity.
+
+## Quick Links
+
+| Resource | Link |
+|---|---|
+| Streamlit dashboard | Local run instructions for now; replace the badge link after deployment |
+| Documentation website | <https://vdss-fs26-ds25a.github.io/ds25a-1-fancyproject/> |
 
 Original data source:
 
