@@ -777,9 +777,30 @@ def inject_styles() -> None:
             text-overflow: clip !important;
             line-height: 1.2 !important;
         }
-        section[data-testid="stSidebar"] label, 
-        section[data-testid="stSidebar"] .stMarkdown {
-            color: #f4f7fa !important;
+        section[data-testid="stSidebar"],
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] .stMarkdown,
+        section[data-testid="stSidebar"] .stCaption,
+        section[data-testid="stSidebar"] div[data-testid="stCaptionContainer"],
+        section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+        section[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+        section[data-testid="stSidebar"] [data-testid="stCheckbox"] label,
+        section[data-testid="stSidebar"] [data-testid="stCheckbox"] p,
+        section[data-testid="stSidebar"] details summary,
+        section[data-testid="stSidebar"] details summary *,
+        section[data-testid="stSidebar"] [data-baseweb="select"],
+        section[data-testid="stSidebar"] [data-baseweb="select"] *,
+        section[data-testid="stSidebar"] [data-baseweb="tag"],
+        section[data-testid="stSidebar"] [data-baseweb="tag"] * {
+            color: rgba(244, 247, 250, 0.96) !important;
+            fill: rgba(244, 247, 250, 0.96) !important;
+        }
+        section[data-testid="stSidebar"] .stCaption,
+        section[data-testid="stSidebar"] div[data-testid="stCaptionContainer"],
+        section[data-testid="stSidebar"] div[data-testid="stCaptionContainer"] * {
+            color: rgba(244, 247, 250, 0.68) !important;
         }
         section[data-testid="stSidebar"] details {
             border: none !important;
