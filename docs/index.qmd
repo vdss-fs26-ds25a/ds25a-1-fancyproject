@@ -8,6 +8,8 @@ The dashboard focuses on three practical questions:
 - Which design families perform best?
 - Which recurring design recipes show strong trade-offs between range, hover time, speed and mass?
 
+Live dashboard: <https://aircraftverse.streamlit.app/>
+
 ## Dataset
 
 The project uses AircraftVerse, a public dataset of simulated battery-powered aircraft designs. The dashboard uses a processed table with 27,714 configurations and 42 derived variables. These variables combine design parameters such as hub layout, battery type, battery cell count, wing count and fuselage layout with performance metrics such as maximum distance, hover time, maximum speed and mass.

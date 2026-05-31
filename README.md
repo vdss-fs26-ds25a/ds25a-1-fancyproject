@@ -1,8 +1,8 @@
 <h1 align="center">Exploring and Visualizing 27’714 Aircraft Designs</h1>
 
 <p align="center">
-  <a href="#run-the-dashboard">
-    <img alt="Streamlit App" src="https://img.shields.io/badge/Streamlit_App-deploy_link_pending-FF4B4B?logo=streamlit&logoColor=white">
+  <a href="https://aircraftverse.streamlit.app/">
+    <img alt="Streamlit App" src="https://img.shields.io/badge/Streamlit_App-live-FF4B4B?logo=streamlit&logoColor=white">
   </a>
   <a href="https://vdss-fs26-ds25a.github.io/ds25a-1-fancyproject/">
     <img alt="Documentation" src="https://img.shields.io/badge/Documentation-GitHub_Pages-2C7A7B?logo=quarto&logoColor=white">
@@ -17,7 +17,7 @@ The project focuses on how aircraft design choices relate to flight performance.
 
 | Resource | Link |
 |---|---|
-| Streamlit dashboard | Local run instructions for now; replace the badge link after deployment |
+| Streamlit dashboard | <https://aircraftverse.streamlit.app/> |
 | Documentation website | <https://vdss-fs26-ds25a.github.io/ds25a-1-fancyproject/> |
 | Presentation | [`docs/Exploring_and_Visualizing_27’714_Aircraft Designs_Berdelis_Aziz_DS25a.pptx`](docs/Exploring_and_Visualizing_27’714_Aircraft%20Designs_Berdelis_Aziz_DS25a.pptx) |
 
