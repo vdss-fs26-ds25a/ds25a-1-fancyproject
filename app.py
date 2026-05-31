@@ -844,6 +844,95 @@ def inject_styles() -> None:
         div[data-testid="stDataFrame"] {
             padding: 0.35rem;
         }
+        div[data-testid="stDataFrame"] * {
+            color-scheme: light;
+        }
+        div[data-testid="stDataFrame"] [role="grid"],
+        div[data-testid="stDataFrame"] canvas,
+        div[data-testid="stDataFrame"] iframe {
+            background: #ffffff !important;
+            border-radius: 16px;
+        }
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"],
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"] > div,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"] > div > div {
+            background: #f7fbff !important;
+            background-color: #f7fbff !important;
+            border-color: rgba(79,128,190,0.18) !important;
+            border-radius: 14px !important;
+            color: var(--ink) !important;
+            box-shadow: 0 10px 24px rgba(23,61,113,0.07);
+        }
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"] input,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"] svg,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] [data-baseweb="select"] span {
+            color: var(--ink) !important;
+            fill: var(--ink) !important;
+        }
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] label,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stSelectbox"] p {
+            color: #22364b !important;
+            font-weight: 760 !important;
+        }
+        div[data-baseweb="popover"],
+        div[data-baseweb="popover"] > div {
+            background: #ffffff !important;
+            color: var(--ink) !important;
+            border: 1px solid rgba(79,128,190,0.16) !important;
+            border-radius: 14px !important;
+            box-shadow: 0 18px 42px rgba(23,61,113,0.16) !important;
+        }
+        div[data-baseweb="popover"] li,
+        div[data-baseweb="popover"] div[role="option"] {
+            background: #ffffff !important;
+            color: var(--ink) !important;
+        }
+        div[data-baseweb="popover"] li:hover,
+        div[data-baseweb="popover"] div[role="option"]:hover {
+            background: #eef6ff !important;
+        }
+        .light-table-wrap {
+            overflow: auto;
+            max-height: 440px;
+            background: rgba(255,255,255,0.86);
+            border: 1px solid rgba(79,128,190,0.14);
+            border-radius: 20px;
+            box-shadow: 0 14px 34px rgba(23,61,113,0.08);
+            padding: 0.55rem;
+        }
+        .light-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            color: var(--ink);
+            font-size: 0.86rem;
+        }
+        .light-table th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: #edf6ff;
+            color: #17324d;
+            font-weight: 820;
+            text-align: left;
+            padding: 0.62rem 0.7rem;
+            border-bottom: 1px solid rgba(79,128,190,0.16);
+        }
+        .light-table td {
+            background: #ffffff;
+            color: #25384c;
+            padding: 0.55rem 0.7rem;
+            border-bottom: 1px solid rgba(79,128,190,0.09);
+            white-space: nowrap;
+        }
+        .light-table tr:nth-child(even) td {
+            background: #f7fbff;
+        }
+        .table-note {
+            margin: 0.45rem 0 0.2rem 0;
+            color: #5f7184;
+            font-size: 0.82rem;
+        }
         h2, h3 {
             color: var(--ink);
             letter-spacing: -0.025em;
@@ -851,9 +940,27 @@ def inject_styles() -> None:
         .stMarkdown p {
             color: #405267;
         }
-        .stExpander {
+        [data-testid="stAppViewContainer"] .main .stExpander,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stExpander"] {
+            background: rgba(255,255,255,0.80) !important;
+            border: 1px solid rgba(79,128,190,0.14) !important;
             border-radius: 18px !important;
             overflow: hidden;
+            box-shadow: 0 12px 28px rgba(23,61,113,0.08);
+        }
+        [data-testid="stAppViewContainer"] .main div[data-testid="stExpander"] details,
+        [data-testid="stAppViewContainer"] .main div[data-testid="stExpander"] details[open],
+        [data-testid="stAppViewContainer"] .main div[data-testid="stExpander"] summary {
+            background: rgba(255,255,255,0.86) !important;
+            color: var(--ink) !important;
+        }
+        [data-testid="stAppViewContainer"] .main div[data-testid="stExpander"] code,
+        .stMarkdown code {
+            background: rgba(6,104,246,0.08) !important;
+            color: #17324d !important;
+            border: 1px solid rgba(6,104,246,0.10);
+            border-radius: 7px;
+            padding: 0.1rem 0.28rem;
         }
         .stMarkdown, .stText, .stCaption, p, li, label, h2, h3 {
             color: inherit;
@@ -1021,6 +1128,17 @@ def render_kpi_card(container, label_text: str, value_text: str, icon_name: str,
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_light_table(frame: pd.DataFrame, max_rows: int = 250) -> None:
+    shown = frame.head(max_rows).copy()
+    html = shown.to_html(classes="light-table", index=False, escape=True, border=0)
+    st.markdown(f'<div class="light-table-wrap">{html}</div>', unsafe_allow_html=True)
+    if len(frame) > max_rows:
+        st.markdown(
+            f'<div class="table-note">Showing first {max_rows:,} of {len(frame):,} rows.</div>',
+            unsafe_allow_html=True,
+        )
 
 
 def render_header(frame: pd.DataFrame, data_dir: str) -> None:
@@ -1230,7 +1348,7 @@ def render_families_tab(frame: pd.DataFrame) -> None:
     fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=50, b=10), xaxis_title="")
     st.plotly_chart(polish_figure(fig), width="stretch")
 
-    st.dataframe(summary.round(2), width="stretch", hide_index=True)
+    render_light_table(summary.round(2), max_rows=80)
 
 
 def render_recipes_tab(frame: pd.DataFrame) -> None:
@@ -1257,7 +1375,7 @@ def render_recipes_tab(frame: pd.DataFrame) -> None:
         st.plotly_chart(polish_figure(fig), width="stretch")
 
     with right:
-        st.dataframe(
+        render_light_table(
             recipes[
                 [
                     "recipe",
@@ -1270,8 +1388,7 @@ def render_recipes_tab(frame: pd.DataFrame) -> None:
                     "median_mass",
                 ]
             ].round(2).head(20),
-            width="stretch",
-            hide_index=True,
+            max_rows=20,
         )
 
     viable = frame[frame["can_fly"]].copy()
@@ -1323,7 +1440,7 @@ def render_explorer_tab(frame: pd.DataFrame) -> None:
     fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
     st.plotly_chart(polish_figure(fig), width="stretch")
 
-    st.dataframe(
+    render_light_table(
         frame[
             [
                 "design_name",
@@ -1338,8 +1455,7 @@ def render_explorer_tab(frame: pd.DataFrame) -> None:
                 "max_speed_mps",
             ]
         ].round(2),
-        width="stretch",
-        hide_index=True,
+        max_rows=250,
     )
 
 
