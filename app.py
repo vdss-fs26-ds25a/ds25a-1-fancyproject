@@ -281,7 +281,6 @@ def apply_filters(frame: pd.DataFrame) -> pd.DataFrame:
                 <div class="brand-subtitle">DASHBOARD</div>
             </div>
         </div>
-        <div class="sidebar-radar"></div>
         <div class="sidebar-main-title">GLOBAL FILTERS</div>
         """,
         unsafe_allow_html=True,
@@ -709,19 +708,23 @@ def inject_styles() -> None:
             color: var(--purple);
         }
         section[data-testid="stSidebar"] .block-container {
-            padding-top: 1.3rem;
+            padding-top: 0.95rem;
         }
         .sidebar-brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin: 0.2rem 0 1.25rem 0;
+            gap: 0.65rem;
+            margin: 0.05rem 0 0.7rem 0;
+            padding: 0.72rem 0.78rem;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(145,209,255,0.13);
         }
         .brand-mark {
             display: grid;
             place-items: center;
-            width: 3.2rem;
-            height: 3.2rem;
+            width: 2.55rem;
+            height: 2.55rem;
             border-radius: 999px;
             background:
                 radial-gradient(circle, rgba(77,184,255,0.26), transparent 62%),
@@ -733,27 +736,19 @@ def inject_styles() -> None:
         }
         .brand-title {
             color: #f8fbff;
-            font-size: 0.98rem;
+            font-size: 0.9rem;
             font-weight: 850;
             letter-spacing: 0.045em;
         }
         .brand-subtitle {
             color: #b8d7ef;
-            font-size: 0.82rem;
+            font-size: 0.74rem;
             letter-spacing: 0.07em;
         }
-        .sidebar-radar {
-            height: 58px;
-            margin: 0 -0.2rem 1.15rem 0;
-            opacity: 0.72;
-            background:
-                radial-gradient(circle at 74% 50%, transparent 0 22px, rgba(96,190,255,0.12) 23px 24px, transparent 25px 46px, rgba(96,190,255,0.12) 47px 48px, transparent 49px),
-                linear-gradient(90deg, transparent, rgba(96,190,255,0.16), transparent);
-        }
         .sidebar-main-title {
-            margin: 0.15rem 0 1rem 0;
+            margin: 0.2rem 0 0.65rem 0;
             color: #5eb7ff;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 850;
             letter-spacing: 0.08em;
         }
@@ -784,18 +779,18 @@ def inject_styles() -> None:
             border: none !important;
             background: transparent !important;
             box-shadow: none !important;
-            margin-top: 0.1rem;
-            margin-bottom: 0.45rem;
+            margin-top: 0.04rem;
+            margin-bottom: 0.25rem;
         }
         section[data-testid="stSidebar"] details summary {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(145,209,255,0.13);
             border-radius: 13px;
-            padding: 0.42rem 0.62rem;
+            padding: 0.34rem 0.58rem;
         }
         .sidebar-section-title {
-            margin: 0.2rem 0 0.35rem 0;
-            font-size: 0.84rem;
+            margin: 0.08rem 0 0.24rem 0;
+            font-size: 0.81rem;
             font-weight: 760;
             color: #f4f7fa;
             letter-spacing: 0.03em;
@@ -803,13 +798,13 @@ def inject_styles() -> None:
         .sidebar-divider {
             height: 1px;
             background: rgba(145,209,255,0.15);
-            margin: 0.75rem 0 0.7rem 0;
+            margin: 0.52rem 0 0.5rem 0;
         }
         section[data-testid="stSidebar"] img {
             border-radius: 18px;
             border: 1px solid rgba(145,209,255,0.16);
             box-shadow: 0 18px 35px rgba(0,0,0,0.22);
-            margin-top: 0.7rem;
+            margin-top: 0.45rem;
         }
         .stTabs [data-baseweb="tab-list"] {
             gap: 0.5rem;
