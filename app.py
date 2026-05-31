@@ -1006,10 +1006,31 @@ def inject_styles() -> None:
         .stMarkdown, .stText, .stCaption, p, li, label, h2, h3 {
             color: inherit;
         }
+        @media (max-width: 1420px) {
+            .hero {
+                min-height: 410px;
+                padding-top: 3.15rem;
+                background:
+                    linear-gradient(90deg, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.96) 52%, rgba(255,255,255,0.55) 78%, rgba(255,255,255,0.12) 100%),
+                    radial-gradient(circle at 77% 24%, rgba(6,104,246,0.12), transparent 30%),
+                    radial-gradient(circle at 38% 0%, rgba(35,182,168,0.10), transparent 26%),
+                    linear-gradient(135deg, #ffffff 0%, #eaf5ff 100%);
+            }
+            .hero-content {
+                max-width: 600px;
+                transform: translateY(2rem);
+            }
+            .hero h1 {
+                font-size: clamp(2.45rem, 5.2vw, 4.25rem);
+            }
+        }
         @media (max-width: 900px) {
             .hero {
                 min-height: 530px;
                 padding: 1.75rem;
+            }
+            .hero-content {
+                transform: none;
             }
             .hero-visual {
                 inset: 11rem -4rem -3rem -12%;
