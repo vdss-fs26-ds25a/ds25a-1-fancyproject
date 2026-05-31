@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from pathlib import Path
 
 import numpy as np
@@ -12,6 +13,14 @@ from aircraft_dashboard import load_aircraft_data, pareto_front
 
 
 ROOT = Path(__file__).resolve().parent
+ASSET_DIR = ROOT / "assets"
+HERO_AIRCRAFT_IMAGE = ASSET_DIR / "hero_aircraft_formation.png"
+BLUEPRINT_AIRCRAFT_IMAGE = ASSET_DIR / "blueprint_aircraft.png"
+
+ACCENT_BLUE = "#0668f6"
+ACCENT_TEAL = "#23b6a8"
+ACCENT_PURPLE = "#7257e8"
+DARK_NAVY = "#06192b"
 
 METRIC_LABELS = {
     "mass_kg": "Mass (kg)",
@@ -64,6 +73,60 @@ EXPLORER_COLOR_COLUMNS = [
 
 def label(column: str) -> str:
     return METRIC_LABELS.get(column, column.replace("_", " ").title())
+
+
+def image_data_uri(path: Path) -> str:
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
+
+
+def display_path(path_text: str) -> str:
+    path = Path(path_text)
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path_text
+
+
+def configure_plotly_theme() -> None:
+    px.defaults.template = "plotly_white"
+    px.defaults.color_discrete_sequence = [
+        ACCENT_BLUE,
+        ACCENT_TEAL,
+        ACCENT_PURPLE,
+        "#ff9f1c",
+        "#e45757",
+        "#415a77",
+    ]
+
+
+def polish_figure(fig: go.Figure) -> go.Figure:
+    fig.update_layout(
+        paper_bgcolor="rgba(255,255,255,0)",
+        plot_bgcolor="rgba(255,255,255,0)",
+        font=dict(color="#102033", family="sans-serif", size=13),
+        title=dict(font=dict(size=18, color=DARK_NAVY), x=0.02, xanchor="left"),
+        legend=dict(
+            bgcolor="rgba(255,255,255,0.72)",
+            bordercolor="rgba(8,31,53,0.08)",
+            borderwidth=1,
+        ),
+    )
+    fig.update_xaxes(
+        gridcolor="rgba(8,31,53,0.08)",
+        zerolinecolor="rgba(8,31,53,0.12)",
+        linecolor="rgba(8,31,53,0.12)",
+        title_font=dict(color="#506174"),
+        tickfont=dict(color="#506174"),
+    )
+    fig.update_yaxes(
+        gridcolor="rgba(8,31,53,0.08)",
+        zerolinecolor="rgba(8,31,53,0.12)",
+        linecolor="rgba(8,31,53,0.12)",
+        title_font=dict(color="#506174"),
+        tickfont=dict(color="#506174"),
+    )
+    return fig
 
 
 def hub_label(raw: str) -> str:
@@ -209,7 +272,20 @@ def enrich_data(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def apply_filters(frame: pd.DataFrame) -> pd.DataFrame:
-    st.sidebar.markdown("### Global Filters")
+    st.sidebar.markdown(
+        """
+        <div class="sidebar-brand">
+            <div class="brand-mark">AV</div>
+            <div>
+                <div class="brand-title">AIRCRAFTVERSE</div>
+                <div class="brand-subtitle">DASHBOARD</div>
+            </div>
+        </div>
+        <div class="sidebar-radar"></div>
+        <div class="sidebar-main-title">GLOBAL FILTERS</div>
+        """,
+        unsafe_allow_html=True,
+    )
     statuses = sorted(frame["flight_status"].unique().tolist())
     st.sidebar.markdown("<div class='sidebar-section-title'>Flight Status</div>", unsafe_allow_html=True)
     if "all_status_selected" not in st.session_state:
@@ -318,22 +394,44 @@ def apply_filters(frame: pd.DataFrame) -> pd.DataFrame:
         f"{len(filtered):,} designs shown • {len(selected_hubs)} hub family"
         f"{'' if len(selected_hubs) == 1 else 'ies'}"
     )
+    if BLUEPRINT_AIRCRAFT_IMAGE.exists():
+        st.sidebar.image(str(BLUEPRINT_AIRCRAFT_IMAGE), width="stretch")
     return filtered
 
 
 def inject_styles() -> None:
-    st.markdown(
-        """
+    css = """
         <style>
+        :root {
+            --navy: #06192b;
+            --navy-2: #09243c;
+            --blue: #0668f6;
+            --teal: #23b6a8;
+            --purple: #7257e8;
+            --ink: #081f35;
+            --muted: #5c6b7d;
+            --card: rgba(255, 255, 255, 0.84);
+            --line: rgba(8, 31, 53, 0.10);
+            --shadow: 0 22px 55px rgba(25, 67, 120, 0.13);
+        }
+"""
+    st.markdown(
+        (
+            css
+            + """
         .stApp {
             background:
-                radial-gradient(circle at top left, rgba(255, 181, 82, 0.14), transparent 24%),
-                radial-gradient(circle at 85% 9%, rgba(34, 164, 156, 0.10), transparent 20%),
-                linear-gradient(180deg, #0d1b26 0%, #102433 100%);
-            color: #eef3f7;
+                radial-gradient(circle at 84% 4%, rgba(6, 104, 246, 0.11), transparent 28%),
+                radial-gradient(circle at 28% 0%, rgba(35, 182, 168, 0.10), transparent 22%),
+                linear-gradient(180deg, #f7fbff 0%, #eef5ff 52%, #f8fbff 100%);
+            color: var(--ink);
         }
         section[data-testid="stSidebar"] {
-            background: linear-gradient(180deg, #102736 0%, #163a4d 100%);
+            background:
+                radial-gradient(circle at 86% 18%, rgba(75, 181, 255, 0.19), transparent 25%),
+                radial-gradient(circle at 35% 64%, rgba(21, 89, 145, 0.24), transparent 30%),
+                linear-gradient(180deg, #041221 0%, #08213a 52%, #05182b 100%);
+            border-right: 1px solid rgba(117, 193, 255, 0.14);
         }
         [data-testid="stHeader"] {
             background: transparent;
@@ -342,38 +440,269 @@ def inject_styles() -> None:
             background: transparent;
         }
         .block-container {
-            padding-top: 2rem;
+            padding-top: 1.55rem;
             padding-bottom: 3rem;
+            max-width: 1420px;
         }
         .hero {
-            background: linear-gradient(135deg, rgba(255,245,224,0.98), rgba(255,224,178,0.92));
+            position: relative;
+            min-height: 370px;
+            overflow: hidden;
+            border-radius: 30px;
+            padding: 2.5rem 2.55rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(120, 158, 205, 0.18);
+            color: var(--ink);
+            background:
+                linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 44%, rgba(255,255,255,0.28) 71%, transparent 100%),
+                radial-gradient(circle at 77% 24%, rgba(6,104,246,0.12), transparent 30%),
+                radial-gradient(circle at 38% 0%, rgba(35,182,168,0.10), transparent 26%),
+                linear-gradient(135deg, #ffffff 0%, #eaf5ff 100%);
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(6,104,246,0.10), transparent 20%),
+                linear-gradient(120deg, rgba(255,255,255,0.12), transparent 55%);
+        }
+        .hero-content {
+            position: relative;
+            max-width: 670px;
+            z-index: 2;
+        }
+        .hero-visual {
+            position: absolute;
+            z-index: 1;
+            inset: -3.5rem -3.2rem -4.2rem 31%;
+            pointer-events: none;
+        }
+        .hero-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: right center;
+            display: block;
+            filter: drop-shadow(0 24px 34px rgba(25, 79, 145, 0.20));
+        }
+        .hero-visual::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 58% 36%, rgba(255,255,255,0.26), transparent 23%),
+                linear-gradient(90deg, rgba(255,255,255,0.16), transparent 34%);
+        }
+        .eyebrow {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 0.86rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .eyebrow-dots {
+            letter-spacing: 0.3em;
+            color: #65a8ff;
+        }
+        .hero h1 {
+            margin: 0.65rem 0 0.75rem 0;
+            font-size: clamp(2.55rem, 5vw, 5.1rem);
+            line-height: 0.96;
+            letter-spacing: -0.065em;
+            color: var(--ink);
+            max-width: 690px;
+        }
+        .hero h1 span {
+            color: var(--blue);
+        }
+        .hero p {
+            margin: 0;
+            max-width: 650px;
+            color: #405267;
+            font-size: 1.05rem;
+            line-height: 1.62;
+        }
+        .source-pill {
+            display: inline-flex;
+            gap: 0.55rem;
+            align-items: center;
+            margin-top: 1.35rem;
+            padding: 0.58rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.76);
+            border: 1px solid rgba(8,31,53,0.08);
+            box-shadow: 0 10px 30px rgba(25,67,120,0.08);
+            color: #52667a;
+            font-size: 0.86rem;
+        }
+        .source-pill code {
+            background: rgba(6,104,246,0.08);
+            border-radius: 999px;
+            padding: 0.22rem 0.55rem;
+            color: #425164;
+        }
+        .kpi-card {
+            position: relative;
+            min-height: 126px;
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid rgba(90, 134, 190, 0.16);
             border-radius: 22px;
-            padding: 1.4rem 1.5rem;
-            box-shadow: 0 18px 42px rgba(16, 31, 45, 0.12);
-            border: 1px solid rgba(16, 31, 45, 0.08);
-            color: #10212d;
+            padding: 1.2rem 1.25rem 0.9rem 1.25rem;
+            box-shadow: 0 16px 36px rgba(23, 61, 113, 0.11);
+            backdrop-filter: blur(18px);
+        }
+        .kpi-top {
+            display: flex;
+            gap: 0.9rem;
+            align-items: center;
+        }
+        .kpi-icon {
+            display: grid;
+            place-items: center;
+            width: 3.15rem;
+            height: 3.15rem;
+            flex: 0 0 3.15rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--blue), #04a6ff);
+            color: white;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            box-shadow: 0 12px 24px rgba(6, 104, 246, 0.28);
+        }
+        .kpi-card.purple .kpi-icon {
+            background: linear-gradient(135deg, var(--purple), #9f8cff);
+            box-shadow: 0 12px 24px rgba(114, 87, 232, 0.25);
+        }
+        .kpi-card.teal .kpi-icon {
+            background: linear-gradient(135deg, var(--teal), #48d6c8);
+            box-shadow: 0 12px 24px rgba(35, 182, 168, 0.22);
+        }
+        .kpi-label {
+            color: #304155;
+            font-weight: 760;
+            font-size: 0.9rem;
+        }
+        .kpi-value {
+            color: var(--ink);
+            font-size: 1.86rem;
+            font-weight: 850;
+            line-height: 1.1;
+            margin-top: 0.1rem;
+        }
+        .spark {
+            height: 28px;
+            margin-top: 0.85rem;
+            background:
+                linear-gradient(135deg, transparent 10%, rgba(6,104,246,0.18) 11%, transparent 12%),
+                linear-gradient(170deg, transparent 10%, rgba(6,104,246,0.35) 11%, transparent 12%),
+                repeating-linear-gradient(100deg, transparent 0 16px, rgba(6,104,246,0.25) 17px 19px, transparent 20px 32px);
+            clip-path: polygon(0 64%, 10% 68%, 19% 58%, 30% 66%, 41% 50%, 52% 59%, 64% 42%, 78% 48%, 91% 23%, 100% 34%, 100% 100%, 0 100%);
+            opacity: 0.82;
         }
         .finding {
-            background: rgba(255, 250, 242, 0.9);
-            border-radius: 16px;
-            padding: 1rem;
-            border-top: 4px solid #d17c3f;
-            color: #233c48;
-            min-height: 132px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.76);
+            border-radius: 22px;
+            padding: 1.15rem 1.18rem 1.05rem 1.18rem;
+            border: 1px solid rgba(79, 128, 190, 0.16);
+            border-bottom: 4px solid var(--blue);
+            box-shadow: 0 16px 36px rgba(23, 61, 113, 0.10);
+            color: #263d52;
+            min-height: 155px;
+            backdrop-filter: blur(18px);
+        }
+        .finding.teal {
+            border-bottom-color: var(--teal);
+        }
+        .finding.purple {
+            border-bottom-color: var(--purple);
+        }
+        .finding-badge {
+            display: inline-grid;
+            place-items: center;
+            width: 2.85rem;
+            height: 2.85rem;
+            margin-bottom: 0.65rem;
+            border-radius: 999px;
+            background: rgba(6, 104, 246, 0.12);
+            color: var(--blue);
+            font-weight: 850;
+        }
+        .finding.teal .finding-badge {
+            background: rgba(35, 182, 168, 0.13);
+            color: #168d82;
+        }
+        .finding.purple .finding-badge {
+            background: rgba(114, 87, 232, 0.12);
+            color: var(--purple);
         }
         section[data-testid="stSidebar"] .block-container {
             padding-top: 1.3rem;
         }
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.2rem 0 1.25rem 0;
+        }
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 999px;
+            background:
+                radial-gradient(circle, rgba(77,184,255,0.26), transparent 62%),
+                linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+            border: 1px solid rgba(137, 208, 255, 0.35);
+            color: #dff4ff;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+        }
+        .brand-title {
+            color: #f8fbff;
+            font-size: 0.98rem;
+            font-weight: 850;
+            letter-spacing: 0.045em;
+        }
+        .brand-subtitle {
+            color: #b8d7ef;
+            font-size: 0.82rem;
+            letter-spacing: 0.07em;
+        }
+        .sidebar-radar {
+            height: 58px;
+            margin: 0 -0.2rem 1.15rem 0;
+            opacity: 0.72;
+            background:
+                radial-gradient(circle at 74% 50%, transparent 0 22px, rgba(96,190,255,0.12) 23px 24px, transparent 25px 46px, rgba(96,190,255,0.12) 47px 48px, transparent 49px),
+                linear-gradient(90deg, transparent, rgba(96,190,255,0.16), transparent);
+        }
+        .sidebar-main-title {
+            margin: 0.15rem 0 1rem 0;
+            color: #5eb7ff;
+            font-size: 0.88rem;
+            font-weight: 850;
+            letter-spacing: 0.08em;
+        }
         section[data-testid="stSidebar"] [data-baseweb="select"],
         section[data-testid="stSidebar"] [data-baseweb="popover"] > div,
         section[data-testid="stSidebar"] .stSlider {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(145,209,255,0.13);
             border-radius: 14px;
             padding: 0.2rem 0.45rem;
         }
         section[data-testid="stSidebar"] [data-baseweb="tag"] {
-            background: rgba(255, 214, 153, 0.16) !important;
+            background: rgba(63, 165, 255, 0.18) !important;
             border-radius: 999px !important;
             max-width: 100%;
         }
@@ -395,49 +724,88 @@ def inject_styles() -> None:
             margin-bottom: 0.45rem;
         }
         section[data-testid="stSidebar"] details summary {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
-            padding: 0.32rem 0.55rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(145,209,255,0.13);
+            border-radius: 13px;
+            padding: 0.42rem 0.62rem;
         }
         .sidebar-section-title {
             margin: 0.2rem 0 0.35rem 0;
             font-size: 0.84rem;
-            font-weight: 600;
+            font-weight: 760;
             color: #f4f7fa;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.03em;
         }
         .sidebar-divider {
             height: 1px;
-            background: rgba(255,255,255,0.12);
+            background: rgba(145,209,255,0.15);
             margin: 0.75rem 0 0.7rem 0;
+        }
+        section[data-testid="stSidebar"] img {
+            border-radius: 18px;
+            border: 1px solid rgba(145,209,255,0.16);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.22);
+            margin-top: 0.7rem;
         }
         .stTabs [data-baseweb="tab-list"] {
             gap: 0.5rem;
+            background: rgba(255,255,255,0.62);
+            padding: 0.35rem;
+            border-radius: 999px;
+            border: 1px solid rgba(8,31,53,0.08);
+            box-shadow: 0 12px 30px rgba(23, 61, 113, 0.08);
         }
         .stTabs [data-baseweb="tab"] {
-            background: rgba(255, 255, 255, 0.08);
+            background: transparent;
             border-radius: 999px;
-            color: #eef3f7;
-            padding: 0.35rem 0.9rem;
+            color: #53667b;
+            padding: 0.45rem 1rem;
+            font-weight: 750;
         }
         .stTabs [aria-selected="true"] {
-            background: rgba(255, 214, 153, 0.22) !important;
-            color: #fff5e6 !important;
+            background: var(--navy) !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 22px rgba(6,25,43,0.20);
         }
-        div[data-testid="stMetric"] {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            border-radius: 16px;
-            padding: 0.8rem 1rem;
+        div[data-testid="stPlotlyChart"],
+        div[data-testid="stDataFrame"] {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(79, 128, 190, 0.12);
+            border-radius: 22px;
+            box-shadow: 0 14px 34px rgba(23, 61, 113, 0.08);
+            padding: 0.6rem;
+            backdrop-filter: blur(18px);
         }
-        div[data-testid="stMetric"] label,
-        div[data-testid="stMetric"] div,
+        div[data-testid="stDataFrame"] {
+            padding: 0.35rem;
+        }
+        h2, h3 {
+            color: var(--ink);
+            letter-spacing: -0.025em;
+        }
+        .stMarkdown p {
+            color: #405267;
+        }
+        .stExpander {
+            border-radius: 18px !important;
+            overflow: hidden;
+        }
         .stMarkdown, .stText, .stCaption, p, li, label, h2, h3 {
             color: inherit;
         }
+        @media (max-width: 900px) {
+            .hero {
+                min-height: 530px;
+                padding: 1.75rem;
+            }
+            .hero-visual {
+                inset: 11rem -4rem -3rem -12%;
+                opacity: 0.9;
+            }
+        }
         </style>
-        """,
+        """
+        ),
         unsafe_allow_html=True,
     )
 
@@ -519,38 +887,87 @@ def render_glossary() -> None:
         )
 
 
-def render_header(frame: pd.DataFrame, data_dir: str) -> None:
-    st.markdown(
-        """
-        <div class="hero">
-            <div style="display:inline-block; padding:0.25rem 0.65rem; border-radius:999px; background:#103649; color:#f6efe0; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.05em;">
-                Aircraft design dashboard
+def render_kpi_card(container, label_text: str, value_text: str, icon_text: str, variant: str = "") -> None:
+    class_name = f"kpi-card {variant}".strip()
+    container.markdown(
+        f"""
+        <div class="{class_name}">
+            <div class="kpi-top">
+                <div class="kpi-icon">{icon_text}</div>
+                <div>
+                    <div class="kpi-label">{label_text}</div>
+                    <div class="kpi-value">{value_text}</div>
+                </div>
             </div>
-            <h1 style="margin:0.55rem 0 0.25rem 0;">Exploring and Visualizing 27’714 Aircraft Designs</h1>
-            <p style="margin:0;">
-                Explore which aircraft designs are viable, which design families perform well, and which recurring design recipes produce the strongest trade-offs.
-            </p>
+            <div class="spark"></div>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    st.caption(f"Data source: `{data_dir}`")
+
+
+def render_header(frame: pd.DataFrame, data_dir: str) -> None:
+    hero_image_html = ""
+    if HERO_AIRCRAFT_IMAGE.exists():
+        hero_image_html = (
+            f'<div class="hero-visual"><img src="{image_data_uri(HERO_AIRCRAFT_IMAGE)}" '
+            'alt="Futuristic aircraft visualization"></div>'
+        )
+    st.markdown(
+        f"""
+        <div class="hero">
+            <div class="hero-content">
+                <div class="eyebrow">
+                    <span class="eyebrow-dots">•••</span>
+                    <span>AircraftVerse Dashboard</span>
+                </div>
+                <h1>Exploring and Visualizing <span>27’714 Aircraft Designs</span></h1>
+                <p>
+                    Explore which aircraft designs are viable, which design families perform well,
+                    and which recurring design recipes produce the strongest trade-offs.
+                </p>
+            </div>
+            {hero_image_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f"""
+        <div class="source-pill">
+            <strong>Data source</strong>
+            <code>{display_path(data_dir)}</code>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     total = len(frame)
     viable_share = 100 * frame["can_fly"].mean()
     hover_share = 100 * frame["can_hover"].mean()
     best_distance = frame["max_distance_m"].max()
 
+    st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
     cols = st.columns(4)
-    cols[0].metric("Designs in current view", f"{total:,}")
-    cols[1].metric("Forward-flight capable", f"{viable_share:.1f}%")
-    cols[2].metric("Hover-capable", f"{hover_share:.1f}%")
-    cols[3].metric("Best max distance", f"{best_distance:,.0f} m")
+    render_kpi_card(cols[0], "Designs in current view", f"{total:,}", "01")
+    render_kpi_card(cols[1], "Forward-flight capable", f"{viable_share:.1f}%", "02", "teal")
+    render_kpi_card(cols[2], "Hover-capable", f"{hover_share:.1f}%", "03")
+    render_kpi_card(cols[3], "Best max distance", f"{best_distance:,.0f} m", "04", "purple")
 
     findings = key_findings(frame)
     fact_cols = st.columns(3)
+    variants = ["", "teal", "purple"]
+    badges = ["A", "B", "C"]
     for idx, finding in enumerate(findings):
-        fact_cols[idx].markdown(f'<div class="finding">{finding}</div>', unsafe_allow_html=True)
+        fact_cols[idx].markdown(
+            f"""
+            <div class="finding {variants[idx]}">
+                <div class="finding-badge">{badges[idx]}</div>
+                <div>{finding}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     st.markdown("<div style='height: 0.9rem;'></div>", unsafe_allow_html=True)
     render_glossary()
@@ -577,7 +994,7 @@ def render_landscape_tab(frame: pd.DataFrame) -> None:
             template="plotly_white",
         )
         fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=50, b=10), xaxis_title="")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(polish_figure(fig), width="stretch")
 
     with right:
         family = (
@@ -597,7 +1014,7 @@ def render_landscape_tab(frame: pd.DataFrame) -> None:
             template="plotly_white",
         )
         fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(polish_figure(fig), width="stretch")
 
     dist_cols = st.columns(3)
     specs = [
@@ -609,7 +1026,7 @@ def render_landscape_tab(frame: pd.DataFrame) -> None:
         fig = px.histogram(frame, x=column, nbins=50, template="plotly_white", title=title)
         fig.update_traces(marker_color=color)
         fig.update_layout(margin=dict(l=10, r=10, t=45, b=10), yaxis_title="Design count", xaxis_title=label(column.replace("_plot", "")))
-        dist_cols[idx].plotly_chart(fig, use_container_width=True)
+        dist_cols[idx].plotly_chart(polish_figure(fig), width="stretch")
 
 def family_summary(frame: pd.DataFrame, group_col: str) -> pd.DataFrame:
     return (
@@ -661,7 +1078,7 @@ def render_families_tab(frame: pd.DataFrame) -> None:
             template="plotly_white",
         )
         fig.update_layout(margin=dict(l=10, r=10, t=50, b=10), xaxis_title="", yaxis_title=metric.replace("_", " ").title())
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(polish_figure(fig), width="stretch")
 
     with right:
         fig = px.scatter(
@@ -677,7 +1094,7 @@ def render_families_tab(frame: pd.DataFrame) -> None:
             template="plotly_white",
         )
         fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(polish_figure(fig), width="stretch")
 
     top_groups = summary[group_col].head(min(6, len(summary))).tolist()
     detail = frame[frame[group_col].isin(top_groups)].copy()
@@ -691,9 +1108,9 @@ def render_families_tab(frame: pd.DataFrame) -> None:
         template="plotly_white",
     )
     fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=50, b=10), xaxis_title="")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(polish_figure(fig), width="stretch")
 
-    st.dataframe(summary.round(2), use_container_width=True, hide_index=True)
+    st.dataframe(summary.round(2), width="stretch", hide_index=True)
 
 
 def render_recipes_tab(frame: pd.DataFrame) -> None:
@@ -717,7 +1134,7 @@ def render_recipes_tab(frame: pd.DataFrame) -> None:
             template="plotly_white",
         )
         fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(polish_figure(fig), width="stretch")
 
     with right:
         st.dataframe(
@@ -733,7 +1150,7 @@ def render_recipes_tab(frame: pd.DataFrame) -> None:
                     "median_mass",
                 ]
             ].round(2).head(20),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -755,7 +1172,7 @@ def render_recipes_tab(frame: pd.DataFrame) -> None:
         template="plotly_white",
     )
     fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(polish_figure(fig), width="stretch")
 
 
 def render_explorer_tab(frame: pd.DataFrame) -> None:
@@ -784,7 +1201,7 @@ def render_explorer_tab(frame: pd.DataFrame) -> None:
         title=f"{label(x_col)} vs. {label(y_col)}",
     )
     fig.update_layout(margin=dict(l=10, r=10, t=50, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(polish_figure(fig), width="stretch")
 
     st.dataframe(
         frame[
@@ -801,7 +1218,7 @@ def render_explorer_tab(frame: pd.DataFrame) -> None:
                 "max_speed_mps",
             ]
         ].round(2),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -813,6 +1230,7 @@ def main() -> None:
         layout="wide",
         initial_sidebar_state="expanded",
     )
+    configure_plotly_theme()
     inject_styles()
     frame, data_dir = get_data()
     filtered = apply_filters(frame)
