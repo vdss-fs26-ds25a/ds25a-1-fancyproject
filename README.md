@@ -19,6 +19,7 @@ The project focuses on how aircraft design choices relate to flight performance.
 |---|---|
 | Streamlit dashboard | Local run instructions for now; replace the badge link after deployment |
 | Documentation website | <https://vdss-fs26-ds25a.github.io/ds25a-1-fancyproject/> |
+| Presentation | [`docs/Exploring_and_Visualizing_27’714_Aircraft Designs_Berdelis_Aziz_DS25a.pptx`](docs/Exploring_and_Visualizing_27’714_Aircraft%20Designs_Berdelis_Aziz_DS25a.pptx) |
 
 Original data source:
 
@@ -30,6 +31,7 @@ Original data source:
 - Visualization product: Streamlit dashboard in `app.py`
 - Data processing: Python pipeline in `aircraft_dashboard.py` and `data_acquisition/`
 - Documentation: Quarto website in `docs/`
+- Presentation: PowerPoint file in `docs/`
 - Processed dataset: `data/aircraft_designs.csv.gz`
 
 ## Run The Dashboard

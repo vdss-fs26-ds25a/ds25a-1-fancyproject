@@ -28,3 +28,4 @@ The dashboard is designed for aviation students who need to understand design-pe
 - [Project Charta](project_charta.qmd): required project goals, personas, scope and success criteria.
 - [Data Report](data_report.qmd): required data source, processing workflow, data catalogue and exploratory findings.
 - [Meeting Notes](meeting_notes.qmd): short documentation of the coaching feedback and follow-up user validation.
+- [Presentation](Exploring_and_Visualizing_27’714_Aircraft%20Designs_Berdelis_Aziz_DS25a.pptx): PowerPoint presentation for the project.

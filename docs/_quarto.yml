@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: build
+  resources:
+    - "Exploring_and_Visualizing_27’714_Aircraft Designs_Berdelis_Aziz_DS25a.pptx"
   render:
     - index.qmd
     - project_charta.qmd
