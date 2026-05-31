@@ -15,7 +15,6 @@ from aircraft_dashboard import load_aircraft_data, pareto_front
 ROOT = Path(__file__).resolve().parent
 ASSET_DIR = ROOT / "assets"
 HERO_AIRCRAFT_IMAGE = ASSET_DIR / "hero_aircraft_formation.png"
-BLUEPRINT_AIRCRAFT_IMAGE = ASSET_DIR / "blueprint_aircraft.png"
 
 ACCENT_BLUE = "#0668f6"
 ACCENT_TEAL = "#23b6a8"
@@ -393,8 +392,6 @@ def apply_filters(frame: pd.DataFrame) -> pd.DataFrame:
         f"{len(filtered):,} designs shown • {len(selected_hubs)} hub family"
         f"{'' if len(selected_hubs) == 1 else 'ies'}"
     )
-    if BLUEPRINT_AIRCRAFT_IMAGE.exists():
-        st.sidebar.image(str(BLUEPRINT_AIRCRAFT_IMAGE), width="stretch")
     return filtered
 
 
@@ -426,11 +423,18 @@ def inject_styles() -> None:
             color: var(--ink);
         }
         section[data-testid="stSidebar"] {
+            width: 320px !important;
+            min-width: 320px !important;
             background:
                 radial-gradient(circle at 86% 18%, rgba(75, 181, 255, 0.19), transparent 25%),
                 radial-gradient(circle at 35% 64%, rgba(21, 89, 145, 0.24), transparent 30%),
                 linear-gradient(180deg, #041221 0%, #08213a 52%, #05182b 100%);
             border-right: 1px solid rgba(117, 193, 255, 0.14);
+        }
+
+        section[data-testid="stSidebar"] > div {
+            width: 320px !important;
+            min-width: 320px !important;
         }
         [data-testid="stHeader"] {
             background: transparent;
@@ -709,6 +713,8 @@ def inject_styles() -> None:
         }
         section[data-testid="stSidebar"] .block-container {
             padding-top: 0.95rem;
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
         }
         .sidebar-brand {
             display: flex;
@@ -753,12 +759,32 @@ def inject_styles() -> None:
             letter-spacing: 0.08em;
         }
         section[data-testid="stSidebar"] [data-baseweb="select"],
-        section[data-testid="stSidebar"] [data-baseweb="popover"] > div,
-        section[data-testid="stSidebar"] .stSlider {
+        section[data-testid="stSidebar"] [data-baseweb="popover"] > div {
             background: rgba(255,255,255,0.07);
             border: 1px solid rgba(145,209,255,0.13);
             border-radius: 14px;
             padding: 0.2rem 0.45rem;
+        }
+
+        section[data-testid="stSidebar"] .stSlider {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(145,209,255,0.13);
+            border-radius: 14px;
+            padding: 0.45rem 0.75rem 0.55rem 0.75rem;
+        }
+        section[data-testid="stSidebar"] [data-testid="stSlider"],
+        section[data-testid="stSidebar"] [data-testid="stSlider"] > div,
+        section[data-testid="stSidebar"] [data-testid="stSlider"] [data-baseweb="slider"],
+        section[data-testid="stSidebar"] .stSlider,
+        section[data-testid="stSidebar"] .stSlider > div {
+            overflow: visible !important;
+        }
+        section[data-testid="stSidebar"] [data-testid="stSlider"],
+        section[data-testid="stSidebar"] .stSlider {
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
         }
         section[data-testid="stSidebar"] .stSlider [data-testid="stThumbValue"],
         section[data-testid="stSidebar"] .stSlider [data-baseweb="tooltip"],
@@ -826,12 +852,6 @@ def inject_styles() -> None:
             height: 1px;
             background: rgba(145,209,255,0.15);
             margin: 0.52rem 0 0.5rem 0;
-        }
-        section[data-testid="stSidebar"] img {
-            border-radius: 18px;
-            border: 1px solid rgba(145,209,255,0.16);
-            box-shadow: 0 18px 35px rgba(0,0,0,0.22);
-            margin-top: 0.45rem;
         }
         .stTabs [data-baseweb="tab-list"] {
             gap: 0.5rem;
