@@ -549,32 +549,60 @@ def inject_styles() -> None:
         }
         .kpi-card {
             position: relative;
-            min-height: 126px;
+            min-height: 104px;
             overflow: hidden;
             background: var(--card);
             border: 1px solid rgba(90, 134, 190, 0.16);
-            border-radius: 22px;
-            padding: 1.2rem 1.25rem 0.9rem 1.25rem;
+            border-radius: 20px;
+            padding: 1rem 1.08rem;
             box-shadow: 0 16px 36px rgba(23, 61, 113, 0.11);
             backdrop-filter: blur(18px);
         }
+        .kpi-card::after {
+            content: "";
+            position: absolute;
+            right: -2.8rem;
+            bottom: -3.4rem;
+            width: 8rem;
+            height: 8rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(6,104,246,0.13), rgba(6,104,246,0.02) 64%, transparent 65%);
+            pointer-events: none;
+        }
+        .kpi-card.purple::after {
+            background: radial-gradient(circle, rgba(114,87,232,0.14), rgba(114,87,232,0.02) 64%, transparent 65%);
+        }
+        .kpi-card.teal::after {
+            background: radial-gradient(circle, rgba(35,182,168,0.14), rgba(35,182,168,0.02) 64%, transparent 65%);
+        }
         .kpi-top {
             display: flex;
-            gap: 0.9rem;
+            gap: 0.78rem;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         .kpi-icon {
             display: grid;
             place-items: center;
-            width: 3.15rem;
-            height: 3.15rem;
-            flex: 0 0 3.15rem;
+            width: 2.85rem;
+            height: 2.85rem;
+            flex: 0 0 2.85rem;
             border-radius: 999px;
             background: linear-gradient(135deg, var(--blue), #04a6ff);
             color: white;
             font-weight: 900;
             letter-spacing: -0.03em;
             box-shadow: 0 12px 24px rgba(6, 104, 246, 0.28);
+        }
+        .kpi-icon svg {
+            width: 1.42rem;
+            height: 1.42rem;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
         .kpi-card.purple .kpi-icon {
             background: linear-gradient(135deg, var(--purple), #9f8cff);
@@ -587,37 +615,49 @@ def inject_styles() -> None:
         .kpi-label {
             color: #304155;
             font-weight: 760;
-            font-size: 0.9rem;
+            font-size: 0.84rem;
         }
         .kpi-value {
             color: var(--ink);
-            font-size: 1.86rem;
+            font-size: 1.72rem;
             font-weight: 850;
             line-height: 1.1;
             margin-top: 0.1rem;
         }
-        .spark {
-            height: 28px;
-            margin-top: 0.85rem;
-            background:
-                linear-gradient(135deg, transparent 10%, rgba(6,104,246,0.18) 11%, transparent 12%),
-                linear-gradient(170deg, transparent 10%, rgba(6,104,246,0.35) 11%, transparent 12%),
-                repeating-linear-gradient(100deg, transparent 0 16px, rgba(6,104,246,0.25) 17px 19px, transparent 20px 32px);
-            clip-path: polygon(0 64%, 10% 68%, 19% 58%, 30% 66%, 41% 50%, 52% 59%, 64% 42%, 78% 48%, 91% 23%, 100% 34%, 100% 100%, 0 100%);
-            opacity: 0.82;
-        }
         .finding {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.76);
             border-radius: 22px;
-            padding: 1.15rem 1.18rem 1.05rem 1.18rem;
+            padding: 1.2rem 1.25rem;
             border: 1px solid rgba(79, 128, 190, 0.16);
             border-bottom: 4px solid var(--blue);
             box-shadow: 0 16px 36px rgba(23, 61, 113, 0.10);
             color: #263d52;
-            min-height: 155px;
+            min-height: 218px;
+            height: 218px;
             backdrop-filter: blur(18px);
+        }
+        .finding::after {
+            content: "";
+            position: absolute;
+            right: -2.4rem;
+            top: -2.4rem;
+            width: 8rem;
+            height: 8rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(6,104,246,0.10), transparent 66%);
+            pointer-events: none;
+        }
+        .finding.teal::after {
+            background: radial-gradient(circle, rgba(35,182,168,0.11), transparent 66%);
+        }
+        .finding.purple::after {
+            background: radial-gradient(circle, rgba(114,87,232,0.11), transparent 66%);
         }
         .finding.teal {
             border-bottom-color: var(--teal);
@@ -628,13 +668,37 @@ def inject_styles() -> None:
         .finding-badge {
             display: inline-grid;
             place-items: center;
-            width: 2.85rem;
-            height: 2.85rem;
-            margin-bottom: 0.65rem;
+            width: 2.7rem;
+            height: 2.7rem;
             border-radius: 999px;
             background: rgba(6, 104, 246, 0.12);
             color: var(--blue);
             font-weight: 850;
+            position: relative;
+            z-index: 1;
+        }
+        .finding-badge svg {
+            width: 1.35rem;
+            height: 1.35rem;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .finding-text {
+            position: relative;
+            z-index: 1;
+            line-height: 1.52;
+        }
+        .finding-label {
+            position: relative;
+            z-index: 1;
+            color: #788799;
+            font-size: 0.72rem;
+            font-weight: 820;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
         .finding.teal .finding-badge {
             background: rgba(35, 182, 168, 0.13);
@@ -887,19 +951,71 @@ def render_glossary() -> None:
         )
 
 
-def render_kpi_card(container, label_text: str, value_text: str, icon_text: str, variant: str = "") -> None:
+ICON_SVGS = {
+    "clipboard": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 4h6l1 2h3v14H5V6h3l1-2Z"></path>
+            <path d="M9 10h6"></path><path d="M9 14h4"></path>
+        </svg>
+    """,
+    "plane": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 12 21 4l-5 16-4-7-9-1Z"></path>
+            <path d="m12 13 9-9"></path>
+        </svg>
+    """,
+    "rotor": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="2.3"></circle>
+            <path d="M12 9V3"></path><path d="M12 21v-6"></path>
+            <path d="M15 12h6"></path><path d="M3 12h6"></path>
+            <path d="M14 10l4-4"></path><path d="M10 14l-4 4"></path>
+        </svg>
+    """,
+    "range": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 18 9 7l4 7 3-4 4 8H4Z"></path>
+            <path d="M15 7h4v4"></path>
+        </svg>
+    """,
+    "hub": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="2.5"></circle>
+            <circle cx="5" cy="7" r="1.8"></circle>
+            <circle cx="19" cy="7" r="1.8"></circle>
+            <circle cx="5" cy="17" r="1.8"></circle>
+            <circle cx="19" cy="17" r="1.8"></circle>
+            <path d="M10 11 6.5 8.2M14 11l3.5-2.8M10 13l-3.5 2.8M14 13l3.5 2.8"></path>
+        </svg>
+    """,
+    "battery": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 7h9a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path>
+            <path d="M18 10h2v4h-2"></path>
+            <path d="M10 10v4"></path><path d="M8 12h4"></path>
+        </svg>
+    """,
+    "wing": """
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 14c5-5 11-8 18-8-4 5-8 9-15 11l-3-3Z"></path>
+            <path d="M9 15 7 20"></path>
+        </svg>
+    """,
+}
+
+
+def render_kpi_card(container, label_text: str, value_text: str, icon_name: str, variant: str = "") -> None:
     class_name = f"kpi-card {variant}".strip()
     container.markdown(
         f"""
         <div class="{class_name}">
             <div class="kpi-top">
-                <div class="kpi-icon">{icon_text}</div>
+                <div class="kpi-icon">{ICON_SVGS[icon_name]}</div>
                 <div>
                     <div class="kpi-label">{label_text}</div>
                     <div class="kpi-value">{value_text}</div>
                 </div>
             </div>
-            <div class="spark"></div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -949,21 +1065,24 @@ def render_header(frame: pd.DataFrame, data_dir: str) -> None:
 
     st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
     cols = st.columns(4)
-    render_kpi_card(cols[0], "Designs in current view", f"{total:,}", "01")
-    render_kpi_card(cols[1], "Forward-flight capable", f"{viable_share:.1f}%", "02", "teal")
-    render_kpi_card(cols[2], "Hover-capable", f"{hover_share:.1f}%", "03")
-    render_kpi_card(cols[3], "Best max distance", f"{best_distance:,.0f} m", "04", "purple")
+    render_kpi_card(cols[0], "Designs in current view", f"{total:,}", "clipboard")
+    render_kpi_card(cols[1], "Forward-flight capable", f"{viable_share:.1f}%", "plane", "teal")
+    render_kpi_card(cols[2], "Hover-capable", f"{hover_share:.1f}%", "rotor")
+    render_kpi_card(cols[3], "Best max distance", f"{best_distance:,.0f} m", "range", "purple")
 
+    st.markdown("<div style='height: 1.15rem;'></div>", unsafe_allow_html=True)
     findings = key_findings(frame)
     fact_cols = st.columns(3)
     variants = ["", "teal", "purple"]
-    badges = ["A", "B", "C"]
+    icons = ["hub", "battery", "wing"]
+    labels = ["Hub insight", "Fuselage insight", "Design trend"]
     for idx, finding in enumerate(findings):
         fact_cols[idx].markdown(
             f"""
             <div class="finding {variants[idx]}">
-                <div class="finding-badge">{badges[idx]}</div>
-                <div>{finding}</div>
+                <div class="finding-badge">{ICON_SVGS[icons[idx]]}</div>
+                <div class="finding-text">{finding}</div>
+                <div class="finding-label">{labels[idx]}</div>
             </div>
             """,
             unsafe_allow_html=True,
